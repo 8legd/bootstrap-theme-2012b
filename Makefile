@@ -72,10 +72,27 @@ bootstrap:
 	recess --compile ${BOOTSTRAP_RESPONSIVE_LESS} > bootstrap/css/bootstrap-responsive.css
 	recess --compress ${BOOTSTRAP_RESPONSIVE_LESS} > bootstrap/css/bootstrap-responsive.min.css
 	cat js/bootstrap-transition.js js/bootstrap-alert.js js/bootstrap-button.js js/bootstrap-carousel.js js/bootstrap-collapse.js js/bootstrap-dropdown.js js/bootstrap-modal.js js/bootstrap-tooltip.js js/bootstrap-popover.js js/bootstrap-scrollspy.js js/bootstrap-tab.js js/bootstrap-typeahead.js js/bootstrap-affix.js > bootstrap/js/bootstrap.js
+	# 8legd mods - extra js, css 
+		cp ./less/prettify.css ./bootstrap/css/prettify.css
+		cat js-lib/jquery-1.8.1.js bootstrap/js/bootstrap.js js-lib/livevalidation.js js-lib/prettify.js > js/bootstrap.tmp.js
+		rm bootstrap/js/bootstrap.js
+		cp js/bootstrap.tmp.js bootstrap/js/bootstrap.js
+		rm js/bootstrap.tmp.js
+	# /8legd mods - extra js, css
 	uglifyjs -nc bootstrap/js/bootstrap.js > bootstrap/js/bootstrap.min.tmp.js
 	echo "/*!\n* Bootstrap.js by @fat & @mdo\n* Copyright 2012 Twitter, Inc.\n* http://www.apache.org/licenses/LICENSE-2.0.txt\n*/" > bootstrap/js/copyright.js
 	cat bootstrap/js/copyright.js bootstrap/js/bootstrap.min.tmp.js > bootstrap/js/bootstrap.min.js
 	rm bootstrap/js/copyright.js bootstrap/js/bootstrap.min.tmp.js
+	# 8legd mods - timestamp on minified files
+		echo "/** $(shell date) \n */\n" > bootstrap/js/ts.js
+		cat bootstrap/js/ts.js bootstrap/js/bootstrap.min.js > bootstrap/js/bootstrap.min.tmp.js
+		cat bootstrap/js/ts.js bootstrap/css/bootstrap.min.css > bootstrap/css/bootstrap.min.tmp.css
+		cat bootstrap/js/ts.js bootstrap/css/bootstrap-responsive.min.css > bootstrap/css/bootstrap-responsive.min.tmp.css
+		cp bootstrap/js/bootstrap.min.tmp.js bootstrap/js/bootstrap.min.js
+		cp bootstrap/css/bootstrap.min.tmp.css bootstrap/css/bootstrap.min.css
+		cp bootstrap/css/bootstrap-responsive.min.tmp.css bootstrap/css/bootstrap-responsive.min.css
+		rm bootstrap/js/bootstrap.min.tmp.js bootstrap/css/bootstrap.min.tmp.css bootstrap/css/bootstrap-responsive.min.tmp.css
+	# /8legd mods - timestamp on minified files
 
 #
 # MAKE FOR GH-PAGES 4 FAT & MDO ONLY (O_O  )

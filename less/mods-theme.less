@@ -1,0 +1,34 @@
+// theme specific mods...
+
+// Menu position and menu carets
+// %TODO% Explain why!
+// move caret to be the dropdown menu up arrow
+// remove top border on the dropdown and its up arrow (which have now been replaced with the caret)
+.navbar .dropdown-menu {
+    border-top:  none;
+    &:before {
+        display: none;
+    }
+    &:after {
+        display: none;
+    }
+}
+.dropdown .caret {
+    display: none;
+    margin: none;
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 0;
+    border-bottom: 4px solid black;
+}
+.dropdown.open .caret {
+    display: inline-block;
+}
+
+// change carousel controls to be squares
+.carousel-control {
+    .border-radius(0);
+}
